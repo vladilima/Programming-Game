@@ -2,50 +2,65 @@ extends RefCounted
 class_name Interpreter
 
 enum Instruction {
-	LITERAL      = 0x00,
-	ADD      = 0x01,
-	SUBTRACT      = 0x02,
-	MULTIPLY      = 0x03,
-	DIVIDE      = 0x04,
+	#region Internal Primitives
+	LITERAL,
+	ADD,
+	SUBTRACT,
+	MULTIPLY,
+	DIVIDE,
+	#endregion
+	#region External Primitives
+	GET_CASTER_POSITION,
+	GET_CURSOR_POSITION,
+	
+	TELEPORT_SELF,
+	#endregion
 }
 
 var bytecode : Array[int] = []
 var pointer : int = 0
 
 const MAX_STACK : int = 128
-var stack_size : int = 0
-var stack : Array[int] = []
+var stack : Array = []
+var skip : bool = false
 
-func interpret():
+var caster : CharacterBody2D
+
+#region Interpreter Commands
+func interpret(debug: bool):
+	stack.clear()
+	
 	pointer = 0
 	print('-----------------------')
 	for instruction in bytecode:
-		evaluate(instruction, pointer, true)
+		if skip: 
+			skip = false
+			pointer += 1
+			continue
+		await evaluate(instruction, pointer, debug)
 		pointer += 1
 		print('Stack:        ', stack)
 		print('-----------------------')
-	
 
-
-func push(value: int) -> void:
-	assert(stack_size < MAX_STACK)
-	stack_size += 1
+func push(value: Variant) -> void:
+	assert(stack.size() < MAX_STACK, "Max Stack size reached")
 	stack.push_back(value)
 
-func pop() -> int:
-	assert(stack_size > 0)
-	stack_size -= 1
+func pop() -> Variant:
+	assert(stack.size() > 0, "Stack is empty.")
 	return stack.pop_back()
-
+#endregion
 
 func evaluate(instruction: Instruction, i: int, debug: bool) -> void:
 	if debug:
-		debug(instruction, i)
+		debug(instruction)
 	
 	match instruction:
+		#region Internal Primitives
 		Instruction.LITERAL:
 			assert(bytecode.get(i + 1) != null, 'No number literal found.')
-			var value : int = bytecode.pop_at(i + 1)
+			var value : int = bytecode[i + 1]
+			skip = true
 			push(value)
 		
 		Instruction.ADD:
@@ -67,24 +82,25 @@ func evaluate(instruction: Instruction, i: int, debug: bool) -> void:
 			var value1 = pop()
 			var value2 = pop()
 			push(value2 / value1)
+		#endregion
+		#region External Primitives
+		Instruction.GET_CASTER_POSITION:
+			push(caster.position)
+		
+		Instruction.GET_CURSOR_POSITION:
+			push(caster.get_global_mouse_position())
+			
+		Instruction.TELEPORT_SELF:
+			caster.position = pop()
+		#endregion
 
 
-func debug(instruction: Instruction, step: int) -> void:
+func debug(instruction: Instruction) -> void:
 	if debug:
-		print('Current Step: ', step)
+		print('Current Step: ', pointer)
 		
 		if Instruction.find_key(instruction):
-			match instruction:
-				Instruction.LITERAL:
-					print('Instruction:  LITERAL')
-				Instruction.ADD:
-					print('Instruction:  ADD')
-				Instruction.SUBTRACT:
-					print('Instruction:  SUBTRACT')
-				Instruction.MULTIPLY:
-					print('Instruction:  MULTIPLY')
-				Instruction.DIVIDE:
-					print('Instruction:  DIVIDE')
+			print('Instruction:  ', Instruction.find_key(instruction))
 		
 		else:
 			print('Literal:      ', instruction)

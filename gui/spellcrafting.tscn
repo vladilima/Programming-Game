@@ -1,0 +1,75 @@
+[gd_scene load_steps=2 format=3 uid="uid://d23by7glm6c03"]
+
+[ext_resource type="Script" uid="uid://bffb3a0wpaopd" path="res://gui/spellcrafting.gd" id="1_vltkt"]
+
+[node name="Spellcrafting" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_vltkt")
+
+[node name="Menu" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Menu"]
+layout_mode = 2
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 128.0
+offset_bottom = 304.0
+horizontal_scroll_mode = 0
+
+[node name="ButtonList" type="VBoxContainer" parent="Menu/ScrollContainer"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+metadata/_edit_group_ = true
+
+[node name="HFlowContainer" type="HFlowContainer" parent="Menu"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 80.0
+offset_right = 456.0
+offset_bottom = 232.0
+
+[node name="StackOutput" type="Label" parent="Menu"]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 232.0
+offset_right = 488.0
+offset_bottom = 328.0
+text = "Stack:"
+horizontal_alignment = 1
+
+[node name="RunButton" type="Button" parent="Menu"]
+layout_mode = 0
+offset_left = 232.0
+offset_top = 32.0
+offset_right = 344.0
+offset_bottom = 63.0
+focus_mode = 0
+text = "Run"
+
+[node name="Clear" type="Button" parent="Menu"]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 128.0
+offset_right = 571.0
+offset_bottom = 160.0
+focus_mode = 0
+text = "Clear
+"
+
+[node name="ToggleVisibility" type="CheckButton" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 32.0
+offset_right = 227.0
+offset_bottom = 64.0
+focus_mode = 0
+button_pressed = true
+text = "Visible"
+
+[connection signal="pressed" from="Menu/RunButton" to="." method="runBytecode"]
+[connection signal="pressed" from="Menu/Clear" to="." method="_onClearPressed"]
+[connection signal="toggled" from="ToggleVisibility" to="." method="_onToggleVisibilityToggled"]
