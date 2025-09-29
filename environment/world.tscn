@@ -15,6 +15,7 @@ position = Vector2(0, 136)
 shape = SubResource("WorldBoundaryShape2D_01qa0")
 
 [node name="Wizard" parent="." instance=ExtResource("1_01qa0")]
+position = Vector2(288, 312)
 
 [node name="Spellcrafting" parent="." node_paths=PackedStringArray("caster") instance=ExtResource("2_lj4vs")]
 caster = NodePath("../Wizard")

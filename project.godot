@@ -20,6 +20,10 @@ window/size/viewport_width=576
 window/size/viewport_height=324
 window/stretch/mode="viewport"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/tnowe_extra_controls/plugin.cfg")
+
 [input]
 
 up={

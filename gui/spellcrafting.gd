@@ -3,7 +3,6 @@ extends Control
 var interpreter : Interpreter = Interpreter.new()
 
 const INSTRUCTION_LABEL = preload('uid://ci5tnfsih6bil')
-const LITERAL_INPUT = preload('uid://63jj373c4rd2')
 
 @onready var instruction_list = $Menu/HFlowContainer
 
@@ -23,11 +22,10 @@ func _ready() -> void:
 var bytecode : Array[int] = []
 func runBytecode() -> void:
 	bytecode.clear()
-	for instruction in instruction_list.get_children():
-		if instruction is InstructionLabel:
-			bytecode.append(interpreter.Instruction.get(instruction.text))
-		else:
-			bytecode.append(int(instruction.value))
+	for instruction_label : InstructionLabel in instruction_list.get_children():
+		bytecode.append(instruction_label.instruction)
+		if instruction_label.is_literal:
+			bytecode.append(instruction_label.literal_value)
 	
 	interpreter.caster = caster
 	interpreter.bytecode = bytecode
@@ -42,12 +40,12 @@ func _onClearPressed() -> void:
 
 func _onButtonDown(instruction : int) -> void:
 	var new_label = INSTRUCTION_LABEL.instantiate()
+	new_label.instruction = instruction
 	new_label.setText(interpreter.Instruction.find_key(instruction))
 	instruction_list.add_child(new_label)
 	
 	if instruction == interpreter.Instruction.LITERAL:
-		var new_literal = LITERAL_INPUT.instantiate()
-		instruction_list.add_child(new_literal)
+		new_label.showLiteral()
 
 
 func _onToggleVisibilityToggled(toggled_on: bool) -> void:

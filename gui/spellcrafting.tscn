@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://d23by7glm6c03"]
+[gd_scene load_steps=3 format=3 uid="uid://d23by7glm6c03"]
 
 [ext_resource type="Script" uid="uid://bffb3a0wpaopd" path="res://gui/spellcrafting.gd" id="1_vltkt"]
+[ext_resource type="Script" uid="uid://73if1il8vw71" path="res://addons/tnowe_extra_controls/elements/interpolated_container/interpolated_flow_container.gd" id="2_2m1m8"]
 
 [node name="Spellcrafting" type="Control"]
 layout_mode = 3
@@ -25,12 +26,14 @@ custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
 metadata/_edit_group_ = true
 
-[node name="HFlowContainer" type="HFlowContainer" parent="Menu"]
+[node name="HFlowContainer" type="Container" parent="Menu"]
 layout_mode = 0
 offset_left = 128.0
 offset_top = 80.0
 offset_right = 456.0
 offset_bottom = 232.0
+script = ExtResource("2_2m1m8")
+metadata/_custom_type_script = "uid://73if1il8vw71"
 
 [node name="StackOutput" type="Label" parent="Menu"]
 layout_mode = 0
@@ -62,10 +65,10 @@ text = "Clear
 
 [node name="ToggleVisibility" type="CheckButton" parent="."]
 layout_mode = 0
-offset_left = 128.0
-offset_top = 32.0
-offset_right = 227.0
-offset_bottom = 64.0
+offset_left = 472.0
+offset_top = 288.0
+offset_right = 571.0
+offset_bottom = 320.0
 focus_mode = 0
 button_pressed = true
 text = "Visible"

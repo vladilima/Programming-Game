@@ -4,10 +4,11 @@ class_name Interpreter
 enum Instruction {
 	#region Internal Primitives
 	LITERAL,
-	ADD,
+	SUM,
 	SUBTRACT,
 	MULTIPLY,
 	DIVIDE,
+	BUILD_VECTOR,
 	#endregion
 	#region External Primitives
 	GET_CASTER_POSITION,
@@ -63,15 +64,25 @@ func evaluate(instruction: Instruction, i: int, debug: bool) -> void:
 			skip = true
 			push(value)
 		
-		Instruction.ADD:
+		Instruction.SUM:
 			var value1 = pop()
 			var value2 = pop()
-			push(value1 + value2)
+			if value1 is Vector2 and !value2 is Vector2:
+				push(Vector2(value1.x + value2, value1.y + value2))
+			elif value2 is Vector2 and !value1 is Vector2:
+				push(Vector2(value2.x + value1, value2.y + value1))
+			else:
+				push(value1 + value2)
 		
 		Instruction.SUBTRACT:
-			var value1 = pop()
 			var value2 = pop()
-			push(value1 - value2)
+			var value1 = pop()
+			if value1 is Vector2 and !value2 is Vector2:
+				push(Vector2(value1.x - value2, value1.y - value2))
+			elif value2 is Vector2 and !value1 is Vector2:
+				push(Vector2(value2.x - value1, value2.y - value1))
+			else:
+				push(value1 - value2)
 		
 		Instruction.MULTIPLY:
 			var value1 = pop()
@@ -82,6 +93,11 @@ func evaluate(instruction: Instruction, i: int, debug: bool) -> void:
 			var value1 = pop()
 			var value2 = pop()
 			push(value2 / value1)
+		
+		Instruction.BUILD_VECTOR:
+			var value1 = pop()
+			var value2 = pop()
+			push(Vector2(value2, value1))
 		#endregion
 		#region External Primitives
 		Instruction.GET_CASTER_POSITION:
