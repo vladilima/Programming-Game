@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bne20vktwygrq"]
+
+[ext_resource type="Script" uid="uid://cdapitr0roq7c" path="res://entity/enemy/enemy.gd" id="1_lvn57"]
+[ext_resource type="Texture2D" uid="uid://cxbur07glcytb" path="res://entity/enemy/bad_guy.png" id="2_lvn57"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_25rxw"]
+size = Vector2(12, 16)
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_lvn57")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.109804, 0.0784314, 1)
+texture = ExtResource("2_lvn57")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_25rxw")

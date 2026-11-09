@@ -46,7 +46,3 @@ func _onButtonDown(instruction : int) -> void:
 	
 	if instruction == interpreter.Instruction.LITERAL:
 		new_label.showLiteral()
-
-
-func _onToggleVisibilityToggled(toggled_on: bool) -> void:
-	$Menu.visible = toggled_on

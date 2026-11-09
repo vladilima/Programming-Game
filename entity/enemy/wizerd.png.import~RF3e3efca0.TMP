@@ -2,16 +2,15 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2jmkpja3go10"
-path="res://.godot/imported/wizard.png-713ff23596df6f493efb2d34e6cf1cf3.ctex"
+path="res://.godot/imported/wizerd.png-864439538ee0298e069ce0f7539803a1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entity/player/wizard.png"
-dest_files=["res://.godot/imported/wizard.png-713ff23596df6f493efb2d34e6cf1cf3.ctex"]
+source_file="res://entity/player/wizerd.png"
+dest_files=["res://.godot/imported/wizerd.png-864439538ee0298e069ce0f7539803a1.ctex"]
 
 [params]
 

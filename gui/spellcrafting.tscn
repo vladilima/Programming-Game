@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://d23by7glm6c03"]
+[gd_scene load_steps=4 format=3 uid="uid://d23by7glm6c03"]
 
 [ext_resource type="Script" uid="uid://bffb3a0wpaopd" path="res://gui/spellcrafting.gd" id="1_vltkt"]
 [ext_resource type="Script" uid="uid://73if1il8vw71" path="res://addons/tnowe_extra_controls/elements/interpolated_container/interpolated_flow_container.gd" id="2_2m1m8"]
+[ext_resource type="Script" uid="uid://dnx0gumb0t36c" path="res://gui/toggle_visibility.gd" id="3_gobsd"]
 
 [node name="Spellcrafting" type="Control"]
 layout_mode = 3
@@ -9,6 +10,7 @@ anchors_preset = 0
 script = ExtResource("1_vltkt")
 
 [node name="Menu" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -63,16 +65,17 @@ focus_mode = 0
 text = "Clear
 "
 
-[node name="ToggleVisibility" type="CheckButton" parent="."]
+[node name="ToggleVisibility" type="CheckButton" parent="." node_paths=PackedStringArray("menu")]
 layout_mode = 0
 offset_left = 472.0
 offset_top = 288.0
 offset_right = 571.0
 offset_bottom = 320.0
 focus_mode = 0
-button_pressed = true
 text = "Visible"
+script = ExtResource("3_gobsd")
+menu = NodePath("../Menu")
 
 [connection signal="pressed" from="Menu/RunButton" to="." method="runBytecode"]
 [connection signal="pressed" from="Menu/Clear" to="." method="_onClearPressed"]
-[connection signal="toggled" from="ToggleVisibility" to="." method="_onToggleVisibilityToggled"]
+[connection signal="toggled" from="ToggleVisibility" to="ToggleVisibility" method="_on_toggled"]
